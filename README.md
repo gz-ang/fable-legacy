@@ -59,3 +59,7 @@ The doctrine carries its own protocol (`SKILL.md` § Maintenance protocol):
 Benchmark and pricing figures are launch-window numbers for July 2026 and are cited in
 `references/model-dossier.md`. **Re-verify them before quoting.** The doctrine is built
 to outlive its numbers: keep the directives, replace the figures.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
