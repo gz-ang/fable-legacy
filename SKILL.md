@@ -264,6 +264,12 @@ on disk survives.
 
 - **Write as you go.** In value order: each completed decision, contract, or artifact
   goes to a file *before* starting the next item — never batch all writes at the end.
+- **Know where it goes before you write it.** "Artifacts over conversation" is not
+  permission to litter. Use the project's established location if one exists
+  (`docs/plans/`, `.claude/plan/` — look before guessing); otherwise the session
+  scratchpad. Never drop plans, reports, or handoffs into a git-tracked directory the
+  user did not name: the working directory is not a default, it is usually somebody's
+  repo. An artifact the user has to delete is mess you made, not work you did.
 - **At ~80% context**: stop producing, write a handoff file (state, what remains,
   where things are, next step), and tell the user. A finished handoff beats an
   unfinished deliverable.
