@@ -1,6 +1,6 @@
 ---
 name: fable-legacy
-description: Model orchestration doctrine authored by Claude Fable 5 — teaches any model to work like Fable (contract-first, whole-horizon planning, token frugality, evidence-based completion), routes tasks to the right Claude model (Opus 4.8, Sonnet 5, Haiku 4.5, Fable 5), and defines how an orchestrator plans, dispatches parallel subagents, and reviews their work. Use when choosing a model, spawning subagents, running parallel sessions, planning multi-agent work, when the user asks "which model should do this", or at the start of any large feature that will be split across agents.
+description: Model orchestration doctrine authored by Claude Fable 5 — teaches any model to work like Fable (contract-first, whole-horizon planning, token frugality, evidence-based completion), routes tasks to the right Claude model (Opus 4.8, Sonnet 5, Haiku 4.5, Fable 5), defines how an orchestrator plans, dispatches parallel subagents, and reviews their work, and gates what comes back — how to judge a subagent's findings and its claims to have verified them. Use when choosing a model, spawning subagents, running parallel sessions, planning multi-agent work, when the user asks "which model should do this", when deciding whether to trust what a subagent reported back ("tests pass", "build green", "nothing found", "done"), or at the start of any large feature that will be split across agents.
 ---
 
 # The Fable Legacy: Model Orchestration Doctrine
@@ -75,11 +75,14 @@ when a weaker model must make one of those calls without a stronger model presen
 | **Latency** | Slower | Moderate | Fast | Fastest |
 | **Price in/out per MTok** | $10 / $50 | $5 / $25 | $3 / $15 | $1 / $5 |
 | **Knowledge cutoff** | Jan 2026 | Jan 2026 | Jan 2026 | **Feb 2025** |
-| **Agent-tool `model` value** | inherit-only¹ | `opus` | `sonnet` | `haiku` |
+| **Agent-tool `model` value** | `fable`¹ | `opus` | `sonnet` | `haiku` |
 
-¹ Fable cannot be requested upward: forks always inherit the parent's model, so a
-Fable subagent exists only when a Fable session forks itself. From any other model,
-the Fable tier is reached by recommending the user switch via `/model`, not by spawn.
+¹ Spawnable, but don't. `model: "fable"` is a legal override on a non-fork agent, so
+any tier can request Fable upward (verified by spawn, July 2026 — an earlier version of
+this footnote claimed it was impossible and was wrong). Directive 1 says don't: you
+would be judging output from a model that outreasons you. Escalate instead by
+recommending the user switch via `/model`, which puts a Fable-tier session in the seat
+Fable's output needs. (Forks are separate: they always inherit the parent's model.)
 
 Strengths and weaknesses, distilled (numbers in the dossier):
 
@@ -189,7 +192,10 @@ the defect it might catch. Scale ceremony to blast radius.
 The review chain governs *code a worker wrote*. It never fires on *claims a worker
 reported* — and the failure path above ("retry once, then escalate") only fires on
 workers that fail. A worker that succeeds confidently and wrongly walks straight past
-both, into your plan. Findings need their own gate.
+both, into your plan. Claims need their own gate: one below for what a worker reports,
+one for what it says it verified.
+
+#### What a worker reports
 
 - **Absence is the weakest claim.** "Nothing found", "no such file", "already
   migrated" is the cheapest wrong answer a worker can produce: a scout that searched
@@ -215,6 +221,41 @@ both, into your plan. Findings need their own gate.
   for context: take the answer. "Find ALL X" where a miss ships a broken phase: oracle
   it, and dispatch the two-scout default (Scouts, role 4 above) — one scout is for
   locating, not for proving.
+
+#### What a worker says it verified
+
+"Tests pass", "build green", "done" — the one claim that arrives wearing evidence's
+clothing. This is "Done means demonstrated" and "Verify with a different
+pair of eyes" applied to the receiving side: the worker's demonstration is not yours.
+
+- **A worker's "verified" is a claim, not evidence.** Same class of assertion as any
+  other finding. Re-run the check yourself for anything merge-bound, destructive, or
+  security-touching; take the worker's word on a doc tweak or a throwaway lookup. The
+  check is usually one command; the defect it catches is not.
+- **Green means nothing if the suite dodges the risky path.** Read what the tests
+  *cover*, not the pass count. A destructive command whose tests never exercise its
+  destructive flag is untested. Judge a suite the way you judge a sweep: by coverage,
+  not verdict — require it at dispatch (`references/dispatch-templates.md`, report
+  contract) and read it on receipt. Evidence ranks comment < test < the code's observed
+  behavior: "a passing test outranks an approving comment" (Review chain) holds only
+  while the test exercises the path. When it does not, drop a rank — run the path.
+- **A report narrating work still in flight is unverified by construction.** "Build is
+  running", "should pass", "will confirm" = not done. Treat as incomplete and re-run.
+- **Cheap oracle for verification claims.** Same rule as sweeps: pick the check that
+  would *refute* the claim, and run it. Data repair → assert the invariant (counts
+  before/after, arithmetic that must close). Gate or predicate → execute it against
+  the false case; do not reason about truthiness, run it.
+- **Citing a tool's output does not make a claim verified — the tool must actually
+  measure the thing.** An empty result from the wrong oracle is not evidence of
+  absence; it is evidence of nothing. Confirm a check observes the property you are
+  claiming *before* citing it. Subtle precisely because the output looks authoritative.
+- **Liveness: read the notification's `status` field.** It is authoritative and already
+  there. Count is not liveness — a resumed agent stops, and notifies, again. Never cite
+  `TaskList` for agents: it is the TODO list. Agents do not persist as processes, so a
+  finished one needs no cleanup, despawn, or handshake (mechanics: dossier field notes).
+- **Reversing under pushback is not evidence.** When a user challenges a claim, go find
+  the real signal — do not adopt their reading, or a UI label's. A capitulation is as
+  likely to be wrong as the claim it replaced.
 
 ### Crash-safety
 
@@ -270,7 +311,13 @@ This doctrine must outlive its numbers. Rules for future sessions that edit it:
   to `references/model-dossier.md` under a `## Field notes` heading — date, what was
   routed where, what went wrong, corrected rule. Never edit history, only append.
 - **Compaction**: when field notes exceed ~30 lines, distill them into the routing
-  rules and clear the log. Distillation needs user review; clearing does not.
+  rules, then move the verbatim entries to `references/field-notes-archive.md` as a
+  dated batch (append-only there too) and leave *one* distilled line per batch in the
+  log — carrying the incident count and any open question the new rules do not answer.
+  Distillation needs user review; clearing does not. Never delete an incident record:
+  the archive is how a later session re-derives why a rule exists before changing it,
+  and how a 4th instance of something gets recognized as a pattern rather than a
+  novelty. Nothing loads the archive automatically — it costs nothing to keep.
 - Back up any file before rewriting it wholesale (edits in place are fine).
 
 ## Inheritance clause

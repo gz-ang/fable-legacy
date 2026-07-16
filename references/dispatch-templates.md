@@ -9,8 +9,11 @@ Common report contract (all templates end with this):
 
 > Report back with: (1) outcome in ≤5 sentences, (2) file paths created/modified with
 > line refs for key changes, (3) evidence of acceptance criteria (test output, build
-> result, or read-back), (4) anything you could not do and why. Do not include full
-> file contents.
+> result, or read-back) — name which paths that evidence actually exercises, including
+> the risky one (the destructive flag, the false branch of the gate); a pass count is
+> not coverage, (4) anything you could not do and why. Do not include full file
+> contents. Never report a check that was still running when you wrote this: a result
+> you have not seen is "not verified", not "passing" — finish it or say it is unfinished.
 
 ## 1. Search / scout   (model: haiku — provide docs if task touches post-2025 APIs)
 
@@ -105,5 +108,7 @@ plus the Conductor's own read, no spawned reviewer)
 - Re-dispatching a failed package unchanged — append the failure trail or escalate.
 - Accepting "none found" on a worker's word — absence is the cheapest wrong answer a
   worker can produce. Run one check of your own first (SKILL.md "Receiving findings").
+- Accepting "tests pass" without reading what the tests cover — a suite that never
+  exercises the risky path is a green light nobody earned. Coverage, not verdict.
 - Promoting a worker's claim into a decision doc without opening the file yourself —
   that is how a wrong claim stops being questionable and starts being cited.

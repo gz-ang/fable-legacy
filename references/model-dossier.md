@@ -98,24 +98,15 @@ Append-only, per SKILL.md's maintenance protocol: date — what was routed where
 went wrong — corrected rule. Never edit an existing entry. Distill into the routing
 rules and clear when this passes ~30 lines (distillation needs user review).
 
-- 2026-07-15 — Sonnet scout, sweep of two repos for every surface aggregating fee money
-  on a stale accounting basis. Returned "No contradictions detected — all surfaces
-  already migrated" and asserted "App has no /app/Jobs or /app/Console/Commands files".
-  Both directories existed; five unmigrated surfaces existed. 6 tool calls in 79s; one
-  `grep -rn "SUM(app_fee.paid_amount)" app/` found all five. Acting on it would have
-  shipped a no-op migration phase and left a dashboard contradicting its own report.
-  Root cause: the verification doctrine covered implementation output only — a worker
-  that succeeds confidently and wrongly passed both the review chain and the
-  retry-on-failure path untouched. Corrected rule: SKILL.md "Receiving findings" —
-  absence claims are the weakest evidence class and never sufficient alone; run one
-  cheap refuting oracle before accepting any sweep; scouts must disclose commands run,
-  paths covered, and gaps not covered (dispatch-templates.md §1 + worked example).
-- 2026-07-15 — Sonnet scout, frontend trace. Reported that a page called endpoint A; it
-  actually called endpoint B via a composable. The false claim was promoted into a
-  written design decision covering code nobody had ever opened. Same root cause as
-  above. Corrected rule: SKILL.md "Receiving findings" provenance rule — a subagent
-  claim is `reported`, not `verified`, until the orchestrator sees the evidence
-  firsthand; reported claims must not harden into a decision, contract, plan, or doc.
+- 2026-07-15 → 07-16 — **3 incidents, all Sonnet workers at default effort**: a false
+  absence claim; a false trace promoted into a design decision; two false verification
+  claims ("tests pass" on a suite skipping the risky path, "complete" with the build
+  still running). One root cause — the doctrine gated *code a worker wrote*, never
+  *claims a worker made*. Distilled into SKILL.md "Receiving findings" + "Receiving a
+  worker's own verification", dispatch-templates.md §1 + report contract. Verbatim
+  records: `field-notes-archive.md`. **Open question:** all 3 are Sonnet-at-default —
+  tier effect, or just the only tier ever dispatched as worker? n=3, one conductor, one
+  repo family; cannot separate them. A 4th makes it a pattern — log the model and effort.
 
 ## Why this exists as a skill, not an md rule
 

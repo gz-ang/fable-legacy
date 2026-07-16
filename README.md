@@ -16,8 +16,10 @@ rediscovering it every session.
   task shapes that justify escalating, descending, or changing `effort` instead of tier.
 - **Orchestration playbook** — the four roles (Conductor, Architect, Workers, Scouts),
   the dispatch protocol, the review chain, and crash-safety.
-- **Receiving findings** — the gate on *claims* a worker reports, as opposed to *code*
-  a worker wrote. Absence claims, cheap oracles, coverage disclosure, provenance.
+- **Receiving findings** — the gate on *claims* a worker makes, as opposed to *code* a
+  worker wrote. What it reports (absence claims, cheap oracles, coverage disclosure,
+  provenance) and what it says it verified ("tests pass", "build green", "done" — the
+  claim that arrives wearing evidence's clothing).
 - **Token economics** — what spawning actually costs and when inline beats delegation.
 
 ## Install
@@ -38,7 +40,8 @@ dispatch moments — so it costs roughly one description line per session until 
 | `SKILL.md` | on invocation | The doctrine: directives, routing rules, playbook |
 | `references/dispatch-templates.md` | before writing a worker prompt | Delegation prompts for the five task shapes, with a worked example |
 | `references/judgment-rubrics.md` | when a weak model faces a hard call alone | Five judgment calls made executable, each with a do/don't |
-| `references/model-dossier.md` | to justify or re-derive a routing decision | Benchmarks, specs, caveats, sources, and dated field notes |
+| `references/model-dossier.md` | to justify or re-derive a routing decision | Benchmarks, specs, caveats, sources, and distilled field notes |
+| `references/field-notes-archive.md` | never automatically | Verbatim incident records behind the rules — read when evolving the doctrine, not when dispatching |
 
 Reference files are deliberately *not* loaded by default — see "Why this exists as a
 skill, not an md rule" in the dossier.
@@ -51,8 +54,12 @@ The doctrine carries its own protocol (`SKILL.md` § Maintenance protocol):
   against live docs.
 - **Needs the owner's approval** — prime directives, routing defaults, role definitions,
   or deleting any section. These encode intent, not facts.
-- **Field notes are append-only** — when a routing decision misfires in practice, append
-  a dated line to the dossier. Never edit history.
+- **Field notes are append-only** — when a rule misfires in practice, append a dated
+  line to the dossier. Never edit history.
+- **Compaction preserves the evidence** — past ~30 lines, notes are distilled into the
+  rules and the verbatim entries move to `references/field-notes-archive.md`, leaving
+  one line per batch. Records are never deleted: they are how a later session re-derives
+  why a rule exists before changing it.
 
 ## Provenance
 
