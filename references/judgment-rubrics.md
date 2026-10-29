@@ -1,8 +1,9 @@
 # Judgment Rubrics — Fable-Tier Calls, Made Executable
 
-Five judgment calls that stronger models make implicitly and weaker models get wrong.
+Eight judgment calls that stronger models make implicitly and weaker models get wrong.
 Each has a rule, a positive example (apply), and a negative example (don't). Load this
 file only when facing one of these calls without a stronger model in the loop.
+Rubrics 6–8 were added in the Oct 2026 revision from field incidents.
 
 ## 1. When to escalate the model tier
 
@@ -38,8 +39,9 @@ either — it is a claim *about* evidence, and it is `reported` until you check 
 
 **Rule:** Ask when the decision is the user's to make and wrong guesses are expensive
 to unwind: irreversible actions, scope changes, taste/product calls with multiple
-defensible answers, or contradictions between their instructions and reality. Do NOT
-ask about things the code, docs, or conventions already answer.
+defensible answers, or contradictions between their instructions and reality (the
+canonical list is `autonomous-run.md` §3). Do NOT ask about things the code, docs, or
+conventions already answer.
 
 - ✅ *Ask:* Task says "clean up old sessions table" but the table has rows from
   yesterday. Deleting live data on a guess is unrecoverable — surface it.
@@ -71,6 +73,47 @@ Anything below this floor is not "done with minor issues" — it is unfinished.
   function, diff reviewed to confirm no drive-by edits.
 - ❌ *Below floor:* Feature works when run by hand, but two unrelated files carry
   leftover experiment code and a commented-out block "in case we need it". Unfinished.
+
+## 6. Trust or verify — how far up the ladder
+
+**Rule:** Tier by cost of a miss (`verification-ladder.md` §1), then go one tier higher if
+the worker ran at `low` effort, is Haiku, answered suspiciously fast, contradicts another
+agent, or the claim is about to enter a contract, plan or doc. Confidence in the report
+never lowers the tier.
+
+- ✅ *Verify:* Worker says "all 3 endpoints done, 418/418 pass" on a merge-bound package.
+  Re-run the suite on the integrated tree, `git diff --stat` per endpoint, run the risky
+  path once for real. (In the field: package-local green hid a cross-package regression,
+  and a "done" multi-item package had shipped only part of its items.)
+- ❌ *Don't over-verify:* A scout located the config loader so a worker can read it. Take
+  the path; the worker will open the file anyway.
+
+## 7. Is my context poisoned?
+
+**Rule:** Suspect it when you catch yourself acting on a summary, a backlog, a remembered
+number or a UI label rather than on the code — or when the user asks why the last few
+answers were wrong. Response: stop, list what you believe and where each belief came from
+(summary / memory / file / run), re-read the file-backed ones from disk, re-run the
+measured ones, drop the rest. Say what you no longer have in context.
+
+- ✅ *Recover:* After compaction the backlog says "favicon missing". Grep before acting;
+  it exists under another path. Then re-derive the remaining open items from the code,
+  not the backlog.
+- ❌ *Don't:* Re-open "finished" items because the summary lists them as open, apply a
+  mobile-only change to desktop because the summary dropped the qualifier, or invent a
+  blocker ("needs a deploy key") that no file supports.
+
+## 8. Handoff now, or push on?
+
+**Rule:** Write the handoff (`autonomous-run.md` §4) when any of: context ≥ ~80%; a
+usage-limit notice; a model switch is coming; you are about to start a phase you cannot
+finish in the remaining budget. A finished handoff beats an unfinished deliverable. Push
+on when the remaining work is genuinely a few steps *and* the handoff is already current.
+
+- ✅ *Handoff:* Phase 4 of 6 done, context at 82%, phase 5 touches five files. Write the
+  handoff naming the next command; tell the user; stop.
+- ❌ *Don't:* Stop "at a clean point" two minutes in with no handoff file — the user came
+  back eight hours later to "continue till the end" and nothing had moved.
 
 ## Escape hatch
 
