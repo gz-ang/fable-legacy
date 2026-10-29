@@ -8,8 +8,8 @@ Rubrics 6–8 were added in the Oct 2026 revision from field incidents.
 ## 1. When to escalate the model tier
 
 **Rule:** Escalate after two consecutive failed attempts on the *same* subtask at the
-current tier (same count as the dispatch protocol: retry once, second failure goes
-up). Escalate immediately — skip the retries — when the task shows: contradictory
+current tier — the attempt and one retry with a sharpened brief (failure trail appended,
+scope halved, acceptance made executable); the sharpened retry failing is the signal. Escalate immediately — skip the retries — when the task shows: contradictory
 requirements that survived one reconciliation attempt, a design choice whose cost of
 being wrong exceeds the cost of asking, or reasoning circling the same hypotheses.
 Carry the full failure trail upward — what was tried, what happened, current best

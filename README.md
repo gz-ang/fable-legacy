@@ -50,6 +50,7 @@ dispatch moments — so it costs roughly one description line per session until 
 | `references/judgment-rubrics.md` | when a weak model faces a hard call alone | Eight judgment calls made executable, each with a do/don't |
 | `references/model-dossier.md` | to justify or re-derive a routing decision | Current and prior-generation specs, behavioral notes, benchmarks, field record, field notes |
 | `references/field-notes-archive.md` | never automatically | Verbatim incident records behind the rules — read when evolving the doctrine, not when dispatching |
+| `archive/v1/` | never | The July 2026 doctrine verbatim (also git tag `v1`), for diffing what v2 changed and why |
 
 Reference files are deliberately *not* loaded by default — see "Why this exists as a
 skill, not an md rule" in the dossier.

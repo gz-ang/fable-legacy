@@ -130,11 +130,11 @@ freely updatable when re-verified; directives, routing defaults and roles need t
   8 of 10 load-bearing claims re-confirmed by the Conductor against the transcripts).
   Distilled into SKILL.md v2 (directives 6–7, context hygiene, own-state gate, autonomous
   runs, consolidation), `verification-ladder.md`, `autonomous-run.md`, dispatch-templates
-  8-part brief and §6, rubrics 6–8. Verbatim: `field-notes-archive.md` Batch 2. Answer to
-  Batch 1's open question: workers were Sonnet in ≈80% of dispatches and `effort` was never
-  set, so tier vs effort still cannot be separated — log both from now on. New open
-  questions: (a) does Haiku 5.5 as default scout hold up at `medium` effort on
-  "find ALL X" sweeps, or does it need two scouts by default? (b) does requiring the
+  8-part brief and item 6, rubrics 6–8. Verbatim: `field-notes-archive.md` Batch 2. Answer
+  to Batch 1's open question: workers were Sonnet in ≈80% of dispatches and `effort` was
+  never set, so tier vs effort still cannot be separated — log both from now on. New open
+  questions: (a) does Haiku 5.5 hold up as default scout — `medium` for locate jobs, `high`
+  for sweeps — or should sweeps default to two scouts? (b) does requiring the
   "not verified" section alone account for the zero-fabrication session, or did the
   Fable-tier conductor's contract depth matter more? A 2nd conductor session with the same
   schema on Opus will tell.

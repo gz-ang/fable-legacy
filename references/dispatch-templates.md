@@ -43,7 +43,7 @@ Common report schema (all templates end with this):
 > file contents. Never report a check that was still running when you wrote this: a result
 > you have not seen is "not verified", not "passing".
 
-## 1. Search / scout   (model: haiku, effort: medium — keep < 100K prompt tokens)
+## 1. Search / scout   (model: haiku; effort: medium to locate, high for sweeps and audits — keep < 100K prompt tokens)
 
 > Goal: locate [what] so that [who] can [do what] without scanning the repo.
 > Scope: search only — do not modify files. Envelope: [dirs you may read].

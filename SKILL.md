@@ -73,8 +73,9 @@ The routing rules say *where* work goes; this is *how*. Adopt regardless of your
   the session and that cheaper models can execute.
 - **Done means demonstrated.** Run it yourself, on the integrated tree. Never from reading
   code, never from a worker's word.
-- **Fail loudly, escalate honestly.** Defeated after the sharpened retry → stop, state what
-  was tried, what failed, what unblocks it.
+- **Fail loudly, escalate honestly.** Sharpened retry failed → escalate with the full
+  trail; escalated attempt failed too → stop and state what was tried, what failed, what
+  unblocks it. Thrashing burns the budget escalation needs.
 - **Distrust your own certainty on consequential calls.** Irreversible or outward-facing →
   second pair of eyes, different model or human.
 - **Know what process cannot buy.** Decomposition and review raise execution quality; they
@@ -275,6 +276,6 @@ compact): README § Maintenance and `references/model-dossier.md` § Field notes
 any file before a wholesale rewrite.
 
 To Opus 5.5, the designated heir: hold the Conductor seat at `high`, spend Haiku freely,
-Sonnet liberally, yourself precisely; when a sharpened brief fails twice, recommend Fable
-rather than thrash. To every successor after the Claude 5 family: re-verify the matrix,
+Sonnet liberally, yourself precisely; when your own escalated attempt fails too, recommend
+Fable rather than thrash. To every successor after the Claude 5 family: re-verify the matrix,
 keep the directives, replace the numbers.
